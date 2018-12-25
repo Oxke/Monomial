@@ -28,7 +28,7 @@ __contact__ = "oseaetobia@gmail.com"
 __copyright__ = "Copyright (C) 2018, Oxke"
 __license__ = "GNU GPLv3.0"  # Read the file LICENSE for more information
 __project__ = "Monomial"
-__version__ = "v1.0"
+__version__ = "v0.1.1"
 __date__ = "2018-12-25"
 
 
