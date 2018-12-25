@@ -16,8 +16,11 @@
 #
 #  You should have received a copy of the GNU General Public License
 #  along with this program.  If not, see <https://www.gnu.org/licenses/>.
+#
+#  If you want to contact me, -> oseaetobia@gmail.com
 
 import string
+from random import randrange
 from typing import Dict
 
 __author__ = "Oxke"
@@ -25,8 +28,8 @@ __contact__ = "oseaetobia@gmail.com"
 __copyright__ = "Copyright (C) 2018, Oxke"
 __license__ = "GNU GPLv3.0"  # Read the file LICENSE for more information
 __project__ = "Monomial"
-__version__ = "v0.1"
-__date__ = "2018-12-24"
+__version__ = "v1.0"
+__date__ = "2018-12-25"
 
 
 class Monomial:
@@ -119,10 +122,41 @@ class Monomial:
         """return the coefficient as a floating number"""
         return float(self.coefficient)
 
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    def __len__(self):
+        return len(self.powers)
+
+    @staticmethod
+    def rand_monom(length=None):
+        if isinstance(length, int):
+            assert 0 < length < len(string.ascii_letters), "I don't know " \
+                                                           "enough letters"
+        else:
+            length = randrange(5)
+        coefficient = randrange(-10, 10)
+        powers = {}
+        for i in range(length):
+            powers[string.ascii_letters[i]] = randrange(-10, 10)
+        return Monomial(None, coefficient, powers)
+
+    def __neg__(self):
+        return Monomial(None, -self.coefficient, self.powers)
+
+    def inverse(self):
+        coefficient = 1 / self.coefficient
+        powers = {power: -self.powers[power] for power in self.powers}
+        return Monomial(None, coefficient, powers)
+
+    def degree(self):
+        return sum(self.powers.values())
+
     def mul_two(self, other):
+        """Return product of two Monomials"""
         if isinstance(other, Monomial):
             coefficient = self.coefficient * other.coefficient
-            powers = self.powers
+            powers = {power: self.powers[power] for power in self.powers}
             for letter in other.powers:
                 if letter in powers:
                     powers[letter] += other.powers[letter]
@@ -138,3 +172,6 @@ class Monomial:
         for arg in args:
             result = result.mul_two(arg)
         return result
+
+    def __truediv__(self, other):
+        return self * other.inverse()
