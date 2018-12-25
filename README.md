@@ -1,2 +1,2 @@
 # Monomial
-Another python math class, this time for operating with monomials
+Another python math class, this time for operations with monomials
